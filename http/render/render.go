@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/context"
 	"github.com/unrolled/render"
 
-	"github.com/qinyening/Toruk/http/helper"
+	"github.com/710leo/Toruk/http/helper"
 )
 
 var Render *render.Render
@@ -17,7 +17,7 @@ var funcMap = template.FuncMap{
 }
 
 func Init() {
-	debug := false
+	debug := true
 	Render = render.New(render.Options{
 		Directory:     "views",
 		Extensions:    []string{".html"},

@@ -7,8 +7,8 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/qinyening/Toruk/g"
-	"github.com/qinyening/Toruk/http"
+	"github.com/710leo/Toruk/g"
+	"github.com/710leo/Toruk/http"
 )
 
 func prepare() {

@@ -4,10 +4,10 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 
-	"github.com/qinyening/Toruk/g"
-	"github.com/qinyening/Toruk/http/cookie"
-	"github.com/qinyening/Toruk/http/middleware"
-	"github.com/qinyening/Toruk/http/render"
+	"github.com/710leo/Toruk/g"
+	"github.com/710leo/Toruk/http/cookie"
+	"github.com/710leo/Toruk/http/middleware"
+	"github.com/710leo/Toruk/http/render"
 )
 
 func Start() {

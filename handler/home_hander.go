@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/qinyening/Toruk/http/render"
+	"github.com/710leo/Toruk/http/render"
 )
 
 func HomeIndex(w http.ResponseWriter, r *http.Request) {

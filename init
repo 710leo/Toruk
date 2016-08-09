@@ -1,0 +1,3 @@
+echo $1;
+sed -i "s@github.com/710leo/Toruk@$1@g" `grep -rl "github.com/710leo" *`;
+sed -i "s@toruk@$1@g" control;

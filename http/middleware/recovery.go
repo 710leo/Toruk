@@ -7,8 +7,8 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/qinyening/Toruk/http/errors"
-	"github.com/qinyening/Toruk/http/render"
+	"github.com/710leo/Toruk/http/errors"
+	"github.com/710leo/Toruk/http/render"
 )
 
 // Recovery is a Negroni middleware that recovers from any panics and writes a 500 if there was one.

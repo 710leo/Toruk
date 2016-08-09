@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/qinyening/Toruk/handler"
+	"github.com/710leo/Toruk/handler"
 )
 
 func ConfigRouter(r *mux.Router) {

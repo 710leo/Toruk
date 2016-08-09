@@ -1,7 +1,7 @@
 {
-    "debug": true,
+    "debug": false,
     "http": {
         "listen": "0.0.0.0:4200",
-        "secret": "f16a677edf49ead9975944ae65d5b8d6"
+        "secret": "secret"
     }
 }
