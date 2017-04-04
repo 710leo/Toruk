@@ -18,6 +18,10 @@ func Start() {
 	ConfigRouter(r)
 
 	n := negroni.New()
+
+	if g.Config().Debug {
+		n.Use(negroni.NewLogger())
+	}
 	n.Use(middleware.NewRecovery())
 	n.UseHandler(r)
 	n.Run(g.Config().Http.Listen)

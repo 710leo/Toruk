@@ -1,12 +1,14 @@
 package render
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
 	"github.com/gorilla/context"
 	"github.com/unrolled/render"
 
+	"github.com/710leo/Toruk/g"
 	"github.com/710leo/Toruk/http/helper"
 )
 
@@ -17,53 +19,57 @@ var funcMap = template.FuncMap{
 }
 
 func Init() {
-	debug := true
 	Render = render.New(render.Options{
 		Directory:     "views",
 		Extensions:    []string{".html"},
 		Delims:        render.Delims{"{{", "}}"},
 		Funcs:         []template.FuncMap{funcMap},
 		IndentJSON:    false,
-		IsDevelopment: debug,
+		IsDevelopment: g.Config().Debug,
 	})
 }
 
-func Data(r *http.Request, key string, val interface{}) {
-	m, ok := context.GetOk(r, "DATA_MAP")
+func Put(r *http.Request, key string, val interface{}) {
+	m, ok := context.GetOk(r, "_DATA_MAP_")
 	if ok {
 		mm := m.(map[string]interface{})
 		mm[key] = val
-		context.Set(r, "DATA_MAP", mm)
+		context.Set(r, "_DATA_MAP_", mm)
 	} else {
-		context.Set(r, "DATA_MAP", map[string]interface{}{key: val})
+		context.Set(r, "_DATA_MAP_", map[string]interface{}{key: val})
 	}
 }
 
 func HTML(r *http.Request, w http.ResponseWriter, name string, htmlOpt ...render.HTMLOptions) {
-	Render.HTML(w, http.StatusOK, name, context.Get(r, "DATA_MAP"), htmlOpt...)
+	Render.HTML(w, http.StatusOK, name, context.Get(r, "_DATA_MAP_"), htmlOpt...)
 }
 
-func JSON(w http.ResponseWriter, v interface{}, statusCode ...int) {
+func Text(w http.ResponseWriter, v string, codes ...int) {
 	code := http.StatusOK
-	if len(statusCode) > 0 {
-		code = statusCode[0]
+	if len(codes) > 0 {
+		code = codes[0]
 	}
-	Render.JSON(w, code, v)
+	Render.Text(w, code, v)
 }
 
-func AutoJSON(w http.ResponseWriter, err error, v ...interface{}) {
+func Error(w http.ResponseWriter, err error) {
+	msg := ""
 	if err != nil {
-		JSON(w, map[string]interface{}{"msg": err.Error()})
-		return
+		msg = err.Error()
 	}
 
-	if len(v) > 0 {
-		JSON(w, map[string]interface{}{"msg": "", "data": v[0]})
-	} else {
-		JSON(w, map[string]interface{}{"msg": ""})
-	}
+	Render.JSON(w, http.StatusOK, map[string]string{"msg": msg})
 }
 
-func Text(w http.ResponseWriter, v string) {
-	Render.Text(w, http.StatusOK, v)
+func Message(w http.ResponseWriter, format string, args ...interface{}) {
+	Render.JSON(w, http.StatusOK, map[string]string{"msg": fmt.Sprintf(format, args...)})
+}
+
+func Data(w http.ResponseWriter, v interface{}, msg ...string) {
+	m := ""
+	if len(msg) > 0 {
+		m = msg[0]
+	}
+
+	Render.JSON(w, http.StatusOK, map[string]interface{}{"msg": m, "data": v})
 }

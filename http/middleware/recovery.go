@@ -34,7 +34,8 @@ func (rec *Recovery) ServeHTTP(w http.ResponseWriter, r *http.Request, next http
 		if err := recover(); err != nil {
 			if customError, ok := err.(errors.Error); ok {
 				if isAjax(r) {
-					render.JSON(w, map[string]interface{}{"msg": customError.Msg})
+					render.Message(w, customError.Msg)
+					log.Printf("[%s:%d] %s [Error:]%s", customError.File, customError.Line, customError.Time, customError.Msg)
 					return
 				}
 
@@ -43,7 +44,7 @@ func (rec *Recovery) ServeHTTP(w http.ResponseWriter, r *http.Request, next http
 					return
 				}
 
-				render.Data(r, "Error", customError.Msg)
+				render.Put(r, "Error", customError.Msg)
 				render.HTML(r, w, "inc/error")
 				return
 			}
